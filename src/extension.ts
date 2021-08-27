@@ -114,7 +114,7 @@ export class tagController {
 
   // open file.
   private openFile(fileName: string, lineNum: number): void {
-    const fullPath: string = this.getFullPath(fileName);
+    const fullPath: string = this.getFullPath(fileName).replace(/\\/g, '/');
     // check open file
     const fileExists: boolean = fs.existsSync(fullPath);
     console.log('fullPath: ', fullPath);
@@ -123,7 +123,7 @@ export class tagController {
     //
     if (fileExists) {
       // make Uri
-      const tagPath: string = 'file:///' + fullPath.replace(/\\/g, '/');
+      const tagPath: string = 'file://' + (fullPath.match(/^[A-Za-z]:/) ? '/' : '') + fullPath;
       const setting: vscode.Uri = vscode.Uri.parse(tagPath);
       
       // open file window
